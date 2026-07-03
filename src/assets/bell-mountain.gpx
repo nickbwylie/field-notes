@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1"
+     creator="mock-trip-data"
+     xmlns="http://www.topografix.com/GPX/1/1"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <metadata>
+    <name>Mock Ozark Ridge Loop</name>
+    <desc>Mock GPX route for testing a hiking trip report map. Coordinates are sample data, not a precise real trail.</desc>
+    <time>2026-07-03T12:00:00Z</time>
+  </metadata>
+
+  <!-- Future photo marker examples -->
+  <wpt lat="37.681780" lon="-90.862940">
+    <ele>439</ele>
+    <name>Trailhead Photo</name>
+    <desc>Example photo marker: start of hike</desc>
+    <type>photo</type>
+  </wpt>
+
+  <wpt lat="37.686950" lon="-90.858620">
+    <ele>512</ele>
+    <name>Overlook Photo</name>
+    <desc>Example photo marker: scenic overlook</desc>
+    <type>photo</type>
+  </wpt>
+
+  <wpt lat="37.690720" lon="-90.854180">
+    <ele>536</ele>
+    <name>Summit Photo</name>
+    <desc>Example photo marker: summit view</desc>
+    <type>photo</type>
+  </wpt>
+
+  <trk>
+    <name>Mock Ozark Ridge Loop</name>
+    <desc>Sample hiking route for GPX rendering tests.</desc>
+    <type>hiking</type>
+    <trkseg>
+      <trkpt lat="37.681780" lon="-90.862940"><ele>439</ele><time>2026-07-03T12:00:00Z</time></trkpt>
+      <trkpt lat="37.682510" lon="-90.861970"><ele>448</ele><time>2026-07-03T12:04:00Z</time></trkpt>
+      <trkpt lat="37.683360" lon="-90.861060"><ele>462</ele><time>2026-07-03T12:08:00Z</time></trkpt>
+      <trkpt lat="37.684320" lon="-90.860430"><ele>481</ele><time>2026-07-03T12:12:00Z</time></trkpt>
+      <trkpt lat="37.685210" lon="-90.859670"><ele>497</ele><time>2026-07-03T12:16:00Z</time></trkpt>
+      <trkpt lat="37.686060" lon="-90.858980"><ele>506</ele><time>2026-07-03T12:20:00Z</time></trkpt>
+      <trkpt lat="37.686950" lon="-90.858620"><ele>512</ele><time>2026-07-03T12:24:00Z</time></trkpt>
+      <trkpt lat="37.687760" lon="-90.857850"><ele>521</ele><time>2026-07-03T12:28:00Z</time></trkpt>
+      <trkpt lat="37.688610" lon="-90.856970"><ele>529</ele><time>2026-07-03T12:32:00Z</time></trkpt>
+      <trkpt lat="37.689580" lon="-90.855910"><ele>534</ele><time>2026-07-03T12:36:00Z</time></trkpt>
+      <trkpt lat="37.690720" lon="-90.854180"><ele>536</ele><time>2026-07-03T12:40:00Z</time></trkpt>
+      <trkpt lat="37.691280" lon="-90.852990"><ele>528</ele><time>2026-07-03T12:44:00Z</time></trkpt>
+      <trkpt lat="37.690940" lon="-90.851820"><ele>517</ele><time>2026-07-03T12:48:00Z</time></trkpt>
+      <trkpt lat="37.690020" lon="-90.851270"><ele>503</ele><time>2026-07-03T12:52:00Z</time></trkpt>
+      <trkpt lat="37.688990" lon="-90.851640"><ele>489</ele><time>2026-07-03T12:56:00Z</time></trkpt>
+      <trkpt lat="37.688050" lon="-90.852420"><ele>474</ele><time>2026-07-03T13:00:00Z</time></trkpt>
+      <trkpt lat="37.687160" lon="-90.853310"><ele>461</ele><time>2026-07-03T13:04:00Z</time></trkpt>
+      <trkpt lat="37.686190" lon="-90.854320"><ele>452</ele><time>2026-07-03T13:08:00Z</time></trkpt>
+      <trkpt lat="37.685120" lon="-90.855540"><ele>445</ele><time>2026-07-03T13:12:00Z</time></trkpt>
+      <trkpt lat="37.684070" lon="-90.856730"><ele>441</ele><time>2026-07-03T13:16:00Z</time></trkpt>
+      <trkpt lat="37.683180" lon="-90.858010"><ele>438</ele><time>2026-07-03T13:20:00Z</time></trkpt>
+      <trkpt lat="37.682390" lon="-90.859470"><ele>436</ele><time>2026-07-03T13:24:00Z</time></trkpt>
+      <trkpt lat="37.681890" lon="-90.861020"><ele>437</ele><time>2026-07-03T13:28:00Z</time></trkpt>
+      <trkpt lat="37.681780" lon="-90.862940"><ele>439</ele><time>2026-07-03T13:32:00Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>
