@@ -60,11 +60,13 @@ const Hero = ({ trip }: HeroProps) => {
             {/* <div></div> */}
             <div>{trip.region}</div>
           </span>
-          <div className="text-4xl font-semibold mt-2">{trip.title}</div>
+          <div className="text-3xl md:text-4xl font-semibold mt-2">
+            {trip.title}
+          </div>
           <div className="text-md opacity-60 mt-4">{trip.excerpt}</div>
           <div
-            style={{ width: "100%", display: "flex", columnGap: 32 }}
-            className="mt-4"
+            style={{ width: "100%", display: "flex" }}
+            className="mt-4 flex-wrap gap-x-6 gap-y-1 sm:gap-x-8"
           >
             <div className="text-md opacity-60">{trip.distance_mi} mi</div>
             <div className="text-md opacity-60">

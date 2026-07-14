@@ -12,11 +12,11 @@ export const FeaturedPill = ({ tags }: FeaturedPillProps) => {
     2: "rgb(180, 83, 9)",
   } as const;
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
       {tags.map((tag, index) => (
         <div
           key={tag.name}
-          className="w-1/3 flex flex-row items-center cursor-pointer hover:shadow gap-4 p-4 border-2 border-gray-200 rounded-xl "
+          className="flex w-full flex-row items-center gap-4 rounded-xl border-2 border-gray-200 p-3 cursor-pointer hover:shadow sm:w-1/3 sm:p-4"
         >
           <div className="">
             <span

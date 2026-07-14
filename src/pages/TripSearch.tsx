@@ -240,12 +240,12 @@ export const TripSearch = () => {
   console.log("ttrip search", tripData);
   return (
     <div className="w-full flex flex-col">
-      <div className="text-4xl font-semibold">Trip Reports</div>
-      <div className="text-md opacity-60 mt-2 max-w-1/2">
+      <div className="text-3xl md:text-4xl font-semibold">Trip Reports</div>
+      <div className="text-md opacity-60 mt-2 md:max-w-1/2">
         Every route I've documented from hiking days trips in Missouri to
         overnight backpacking in Grand Teton National Park.
       </div>
-      <div className="w-full flex flex-row gap-4 items-center mt-4">
+      <div className="w-full flex flex-col gap-3 sm:flex-row sm:gap-4 sm:items-center mt-4">
         <InputGroup className="max-w-md flex items-center">
           <InputGroupInput
             placeholder="Search by trip title"
@@ -282,7 +282,7 @@ export const TripSearch = () => {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <div className="flex grow justify-end text-sm text-gray-500">{`${trips.length} results`}</div>
+        <div className="flex grow justify-start text-sm text-gray-500 sm:justify-end">{`${trips.length} results`}</div>
       </div>
       <Separator orientation="horizontal" className="my-4" />
 

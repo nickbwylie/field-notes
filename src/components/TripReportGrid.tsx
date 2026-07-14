@@ -14,12 +14,12 @@ export const TripReportGrid = ({ trips }: TripReportGridProps) => {
     <div className="w-full">
       <div className="w-full flex flex-col gap-2 ">
         <div className="text-2xl font-semibold">Recent trip reports</div>
-        <div className="w-full flex flex-row justify-between">
+        <div className="w-full flex flex-row items-baseline justify-between gap-4">
           <div className="text-sm opacity-60">
             Field-tested routes, gear notes, and lessons learned on the trail.
           </div>
           <div
-            className="uppercase text-sm font-semibold text-green-800 tracking-widest cursor-pointer"
+            className="uppercase text-sm font-semibold text-green-800 tracking-widest cursor-pointer whitespace-nowrap"
             onClick={() => nav("/trips/")}
           >
             View all →

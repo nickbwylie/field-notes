@@ -47,13 +47,13 @@ export const TripCard = ({ trip }: TripCardProps) => {
       </CardHeader>
 
       <CardFooter className="mt-auto bg-white">
-        <div className="flex w-full items-center gap-10">
+        <div className="flex w-full items-center justify-between gap-3">
           <div className="text-sm opacity-60">{trip.distance_mi} mi</div>
 
           <div className="text-sm opacity-60">{trip.elevation_gain_ft} ft</div>
 
           <div
-            className={`rounded-xl px-4 py-1 text-sm ${difficultyColorToClass(trip.difficulty)}`}
+            className={`rounded-xl px-3 py-1 text-sm whitespace-nowrap ${difficultyColorToClass(trip.difficulty)}`}
           >
             {trip.difficulty}
           </div>

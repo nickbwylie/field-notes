@@ -33,15 +33,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        rowGap: 64,
-      }}
-    >
+    <div className="flex w-full flex-col justify-center gap-10 sm:gap-16">
       {tripData.length > 0 && <Hero trip={tripData[0]} />}
       <FeaturedPill tags={featuredPills} />
 

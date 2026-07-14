@@ -8,7 +8,7 @@ interface PhotoGalleryProps {
 
 export const PhotoGallery = ({ photos, onPhotoClick }: PhotoGalleryProps) => {
   return (
-    <div className="grid grid-flow-row grid-cols-3 lg:grid-cols-2 gap-4">
+    <div className="grid grid-flow-row grid-cols-2 gap-3 sm:gap-4">
       {photos.map((photo, index) => (
         <button
           key={index}

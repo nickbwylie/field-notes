@@ -9,47 +9,12 @@ function App() {
 
   return (
     <>
-      <div
-        ref={ref}
-        style={{
-          width: "100%",
-          paddingBottom: 16,
-        }}
-        className="border-b-gray-200 border-b"
-      >
-        <div
-          style={{
-            display: "flex",
-            position: "sticky",
-            justifySelf: "center",
-            width: "100%",
-            maxWidth: 1200,
-            paddingLeft: 12,
-            paddingRight: 12,
-            paddingTop: 24,
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
-        >
+      <div ref={ref} className="w-full border-b border-b-gray-200 pb-4">
+        <div className="mx-auto flex w-full max-w-[1200px] px-3 pt-4 sm:pt-6">
           <Header />
         </div>
       </div>
-      <div
-        style={{
-          width: "100%",
-          maxWidth: 1200,
-          paddingLeft: 24,
-          paddingRight: 24,
-          paddingTop: 64,
-          marginLeft: "auto",
-          marginRight: "auto",
-          rowGap: 64,
-          display: "flex",
-          flexDirection: "column",
-          paddingBottom: 64,
-          justifyContent: "center",
-        }}
-      >
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-4 pb-10 pt-8 sm:gap-16 sm:px-6 sm:pb-16 sm:pt-16">
         <AppRoutes />
         {/* hero section
         <Hero trip={tripData[0]} />

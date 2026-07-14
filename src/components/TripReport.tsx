@@ -39,15 +39,15 @@ export const TripReport = () => {
     isLast?: boolean,
   ) => {
     return (
-      <div className={`w-1/6 ${!isLast ? "border-r-2" : ""}`}>
-        <div className="flex flex-col p-4">
+      <div className={`w-full ${!isLast ? "lg:border-r-2" : ""}`}>
+        <div className="flex flex-col p-3 sm:p-4">
           <div className="flex items-center gap-1.5">
-            <Icon className="h-3.5 w-3.5 text-green-800" />
-            <div className="text-xs uppercase tracking-widest opacity-50">
+            <Icon className="h-3.5 w-3.5 shrink-0 text-green-800" />
+            <div className="truncate text-xs uppercase tracking-widest opacity-50">
               {name}
             </div>
           </div>
-          <div className="mt-1 text-md font-semibold">{val}</div>
+          <div className="text-md mt-1 truncate font-semibold">{val}</div>
         </div>
       </div>
     );
@@ -127,7 +127,7 @@ export const TripReport = () => {
           </div>
         </div>
 
-        <div className="text-4xl font-bold">{trip.title}</div>
+        <div className="text-3xl font-bold md:text-4xl">{trip.title}</div>
 
         <div className="text-md tracking-widest opacity-50">
           {dateToString(trip.created_at)} | {trip.region}
@@ -147,7 +147,7 @@ export const TripReport = () => {
         />
       </div>
 
-      <div className="flex w-full flex-row rounded-lg border-2">
+      <div className="grid w-full grid-cols-2 rounded-lg border-2 sm:grid-cols-3 lg:grid-cols-6">
         {StatBlock("distance", `${trip.distance_mi} mi`, Route)}
         {StatBlock("elev gain", `${trip.elevation_gain_ft} ft`, TrendingUp)}
         {StatBlock("nights", `${trip.nights}`, Tent)}
