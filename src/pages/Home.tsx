@@ -42,8 +42,9 @@ const Home = () => {
         rowGap: 64,
       }}
     >
-      {tripData && <Hero trip={tripData[0]} />}
+      {tripData.length > 0 && <Hero trip={tripData[0]} />}
       <FeaturedPill tags={featuredPills} />
+
       <TripReportGrid trips={tripData} />
     </div>
   );
