@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import { WhereIveBeen } from "@/components/WhereIveBeen";
 import type { TripFrontmatter } from "@/types/MyTypes";
 import { FeaturedPill } from "@/components/FeaturedPill";
 import { TripReportGrid } from "@/components/TripReportGrid";
@@ -36,7 +37,7 @@ const Home = () => {
     <div className="flex w-full flex-col justify-center gap-10 sm:gap-16">
       {tripData.length > 0 && <Hero trip={tripData[0]} />}
       <FeaturedPill tags={featuredPills} />
-
+      <WhereIveBeen trips={tripData} />
       <TripReportGrid trips={tripData} />
     </div>
   );
