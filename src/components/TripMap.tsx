@@ -85,6 +85,7 @@ const createPhotoIcon = (index: number, isSelected: boolean) => {
 };
 
 export const TripMap = ({ gpxUrl, photos = [] }: TripMapProps) => {
+  console.log("gpx url", gpxUrl);
   const [geoJson, setGeoJson] = useState<GeoJsonObject | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [selectedPhotoId, setSelectedPhotoId] = useState<string | null>(null);

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import type { TripFrontmatter } from "../types/MyTypes";
 import { TripCard } from "./TripCard";
 import { Separator } from "./ui/separator";
@@ -7,6 +8,8 @@ interface TripReportGridProps {
 }
 
 export const TripReportGrid = ({ trips }: TripReportGridProps) => {
+  const nav = useNavigate();
+
   return (
     <div className="w-full">
       <div className="w-full flex flex-col gap-2 ">
@@ -15,7 +18,10 @@ export const TripReportGrid = ({ trips }: TripReportGridProps) => {
           <div className="text-sm opacity-60">
             Field-tested routes, gear notes, and lessons learned on the trail.
           </div>
-          <div className="uppercase text-sm font-semibold text-green-800 tracking-widest">
+          <div
+            className="uppercase text-sm font-semibold text-green-800 tracking-widest cursor-pointer"
+            onClick={() => nav("/trips/")}
+          >
             View all →
           </div>
         </div>
@@ -24,9 +30,8 @@ export const TripReportGrid = ({ trips }: TripReportGridProps) => {
       </div>
       {/* card grid */}
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-        {trips.map((trip) => (
-          <TripCard key={trip.title} trip={trip} />
-        ))}
+        {trips &&
+          trips.map((trip) => <TripCard key={trip.title} trip={trip} />)}
       </div>
     </div>
   );

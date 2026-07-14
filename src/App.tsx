@@ -7,6 +7,7 @@ import { TripReportGrid } from "./components/TripReportGrid";
 import { Header } from "./components/Header";
 import { TripReport } from "./components/TripReport";
 import Hero from "./components/Hero";
+import { AppRoutes } from "./routing/AppRoutes";
 
 function App() {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -197,27 +198,11 @@ function App() {
     readingTimeMin: 6,
   };
 
-  const featuredPills = [
-    {
-      name: "Hiking",
-      description: "4 day trips",
-    },
-    {
-      name: "Backpacking",
-      description: "4 overnights",
-    },
-    {
-      name: "Lessons Learned",
-      description: "3 lessons",
-    },
-  ];
-
   return (
     <>
       <div
         ref={ref}
         style={{
-          position: "sticky",
           width: "100%",
           paddingBottom: 16,
         }}
@@ -225,6 +210,8 @@ function App() {
       >
         <div
           style={{
+            display: "flex",
+            position: "sticky",
             justifySelf: "center",
             width: "100%",
             maxWidth: 1200,
@@ -254,11 +241,12 @@ function App() {
           justifyContent: "center",
         }}
       >
+        <AppRoutes />
         {/* hero section
         <Hero trip={tripData[0]} />
         <FeaturedPill tags={featuredPills} />
         <TripReportGrid trips={tripData} /> */}
-        <TripReport trip={bellMountain} />
+        {/* <TripReport trip={bellMountain} /> */}
         {/* a couple of trips by different tags hiking, backpacking, lesson learned */}
       </div>
     </>

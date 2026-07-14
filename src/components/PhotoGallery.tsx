@@ -10,7 +10,7 @@ export const PhotoGallery = ({ photos }: { photos: TripPhoto[] }) => {
             alt={photo.alt}
             className="w-full h-auto rounded-lg"
           />
-          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/55 to-transparent px-4 pb-4 pt-12 text-white rounded-b-lg">
+          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/80 to-transparent px-4 pb-4 pt-12 text-white rounded-b-lg">
             <div className="text-xs leading-snug ">{photo.caption}</div>
           </div>
         </div>

@@ -1,13 +1,22 @@
-import { useState } from "react";
 import { Button } from "./ui/button";
+import { useLocation, useNavigate } from "react-router";
 
 export type Route = "Home" | "Trips" | "About";
 
 export const Header = () => {
   const activeStyle = "bg-[#f5f4f1] text-black opacity-100 ";
-  const [route, setRoute] = useState<Route>("Home");
 
-  const Routes: Route[] = ["Home", "Trips", "About"];
+  const Routes: { name: Route; path: string }[] = [
+    { name: "Home", path: "/" },
+    { name: "Trips", path: "/trips/" },
+  ];
+  const locationRoute = useLocation();
+  const nav = useNavigate();
+
+  const isActive = (path: string) =>
+    path === "/"
+      ? locationRoute.pathname === "/"
+      : locationRoute.pathname.startsWith(path);
 
   return (
     <div
@@ -62,7 +71,7 @@ export const Header = () => {
             }}
           >
             <div className="text-md text-black font-bold flex justify-start">
-              Field Notes
+              Wylie's Field Notes
             </div>
             <div className="text-xs opacity-50 font-extralight uppercase flex justify-start leading-3">
               A Backcountry Journal
@@ -84,10 +93,10 @@ export const Header = () => {
       >
         {Routes.map((currentRoute) => (
           <div
-            className={`text-sm cursor-pointer flex justify-start px-2 py-1 rounded-md opacity-50 ${currentRoute === route && activeStyle}`}
-            onClick={() => setRoute(currentRoute)}
+            className={`text-sm cursor-pointer flex justify-start px-2 py-1 rounded-md opacity-50 ${isActive(currentRoute.path) && activeStyle}`}
+            onClick={() => nav(`${currentRoute.path.toLowerCase()}`)}
           >
-            {currentRoute}
+            {currentRoute.name}
           </div>
         ))}
       </div>

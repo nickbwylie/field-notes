@@ -1,3 +1,5 @@
+import type { Json } from "@/lib/database.types";
+
 export interface Image {
   id: number;
   url: string;
@@ -30,35 +32,41 @@ export interface TripPhoto {
   src: string; // '/photos/bell/summit.jpg'
   caption: string;
   alt?: string;
+  /** Where the photo was taken (EXIF GPS or manual lat/lng in trip.md). Photos with coords render as "photo stops" on the trip map. */
+  lat?: number;
+  lng?: number;
 }
 
 /** Frontmatter parsed from each trip's MDX file. */
 export interface TripFrontmatter {
-  slug: string; // 'bell-mountain'
-  title: string;
-  type: TripType;
-  date: string; // ISO 8601: '2025-10-12'
-  region: string; // 'St. Francois Mtns, MO'
-  location: {
-    area: string;
-    state: string;
-    lat?: number;
-    lng?: number;
-  };
-  tags: string[]; // ['glades', 'rhyolite', 'solitude']
+  created_at: string;
+  difficulty: string;
+  distance_mi: number;
+  elevation_gain_ft: number;
   excerpt: string;
-  heroImage: string;
-  gpxUrl?: string;
-  featured?: boolean;
-  draft?: boolean;
-  stats: TripStats;
+  featured: boolean;
+  gpx_url: string;
+  hero_image: string;
+  high_point_ft: number;
+  id: number;
+  location_area: string;
+  location_lat: string;
+  location_lng: string;
+  location_state: string;
+  nights: number;
+  reading_time_min: number;
+  region: string;
+  route_shape: string;
+  tags: string[];
+  title: string;
+  type: string;
 }
 
 export interface Trip extends TripFrontmatter {
-  bodyHtml: string; // rendered MDX
-  routeNotes: RouteNote[];
-  gallery: TripPhoto[];
-  lessonsLearned: string[];
-  wouldDoDifferently: string[];
-  readingTimeMin: number;
+  body_html: string; // rendered MDX
+  route_notes: Json; //RouteNote[];
+  gallery: Json; //TripPhoto[];
+  lessons_learned: string[];
+  would_do_differently: string[];
+  reading_time_min: number;
 }
