@@ -22,7 +22,7 @@ const Home = () => {
     },
   ];
 
-  const [tripData, setTripData] = useState<TripFrontmatter[]>();
+  const [tripData, setTripData] = useState<TripFrontmatter[]>([]);
 
   useEffect(() => {
     async function call() {
@@ -32,7 +32,6 @@ const Home = () => {
     call();
   }, []);
 
-  console.log("trip_data", tripData);
   return (
     <div
       style={{

@@ -35,22 +35,40 @@ gallery:
   - file: IMG_1.HEIC
     caption: Peak near the start of the trail.
     alt: View with wildflowers
+    lat: 43.54822
+    lng: -110.93172
   - file: IMG_2.HEIC
     caption:
+    lat: 43.59213
+    lng: -110.92380
   - file: IMG_3.HEIC
     caption: Marion Lake about 10 miles from trail head
+    lat: 43.62475
+    lng: -110.92689
   - file: IMG_4.HEIC
     caption: Fox creek pass near our first night campsite
+    lat: 43.64866
+    lng: -110.90967
   - file: IMG_5.HEIC
     caption: Hurricane pass
+    lat: 43.72782
+    lng: -110.85092
   - file: IMG_6.HEIC
     caption:
+    lat: 43.74468
+    lng: -110.83638
   - file: IMG_7.HEIC
     caption: A creek running through our campground on night 2
+    lat: 43.75199
+    lng: -110.82870
   - file: IMG_8.HEIC
     caption: Day 2 campsite
+    lat: 43.75199
+    lng: -110.82870
   - file: IMG_9.HEIC
     caption: A viewpoint near jenny lake
+    lat: 43.76341
+    lng: -110.78069
 
 route_notes:
   - label: WATER

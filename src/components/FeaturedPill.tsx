@@ -10,7 +10,7 @@ export const FeaturedPill = ({ tags }: FeaturedPillProps) => {
     0: "rgb(47, 107, 70)",
     1: "rgb(30, 79, 138)",
     2: "rgb(180, 83, 9)",
-  };
+  } as const;
   return (
     <div className="flex flex-row gap-4">
       {tags.map((tag, index) => (
@@ -37,7 +37,7 @@ export const FeaturedPill = ({ tags }: FeaturedPillProps) => {
                   width: "10px",
                   height: "10px",
                   borderRadius: "50%",
-                  background: pillColor[index],
+                  background: pillColor[index % 3],
                 }}
               ></span>
             </span>

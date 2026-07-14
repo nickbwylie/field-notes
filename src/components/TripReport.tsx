@@ -3,6 +3,16 @@ import { dateToString } from "@/util/date";
 import { difficultyColorToClass } from "@/util/colorutil";
 import { TripMap, type MapPhoto } from "./TripMap";
 import { PhotoGallery } from "./PhotoGallery";
+import { Lightbox } from "./Lightbox";
+import {
+  Calendar,
+  Gauge,
+  MapPin,
+  Route,
+  Tent,
+  TrendingUp,
+  type LucideIcon,
+} from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,20 +26,26 @@ import { useEffect, useState } from "react";
 import { getTripDetails } from "@/apiCalls/api";
 
 export const TripReport = () => {
-  const bg = ["bg-blue-800", "bg-green-800", "bg-yellow-800", "bg-orange-800"];
-  const index = Math.floor(Math.random() * bg.length);
-
   const { slug } = useParams<{ slug: string }>();
 
   const [trip, setTrip] = useState<Trip | null>();
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [selectedStopId, setSelectedStopId] = useState<string | null>(null);
 
-
-  const StatBlock = (name: string, val: string, isLast?: boolean) => {
+  const StatBlock = (
+    name: string,
+    val: string,
+    Icon: LucideIcon,
+    isLast?: boolean,
+  ) => {
     return (
       <div className={`w-1/6 ${!isLast ? "border-r-2" : ""}`}>
         <div className="flex flex-col p-4">
-          <div className="text-xs uppercase tracking-widest opacity-50">
-            {name}
+          <div className="flex items-center gap-1.5">
+            <Icon className="h-3.5 w-3.5 text-green-800" />
+            <div className="text-xs uppercase tracking-widest opacity-50">
+              {name}
+            </div>
           </div>
           <div className="mt-1 text-md font-semibold">{val}</div>
         </div>
@@ -52,15 +68,25 @@ export const TripReport = () => {
   // lat/lng in trip.md) become "photo stops" on the map.
   const galleryPhotos = (trip.gallery ?? []) as unknown as TripPhoto[];
   const mapPhotos: MapPhoto[] = galleryPhotos
-    .filter((p) => p.lat != null && p.lng != null)
-    .map((p, index) => ({
+    .map((p, galleryIndex) => ({ photo: p, galleryIndex }))
+    .filter(({ photo }) => photo.lat != null && photo.lng != null)
+    .map(({ photo, galleryIndex }, index) => ({
       id: `photo-stop-${index}`,
-      src: p.src,
-      alt: p.alt ?? p.caption,
-      caption: p.caption,
-      lat: p.lat as number,
-      lng: p.lng as number,
+      src: photo.src,
+      alt: photo.alt ?? photo.caption,
+      caption: photo.caption,
+      lat: photo.lat as number,
+      lng: photo.lng as number,
+      galleryIndex,
     }));
+
+  // Opening or navigating the lightbox also pans the map to that photo's
+  // stop, when it has one.
+  const showPhoto = (galleryIndex: number) => {
+    setLightboxIndex(galleryIndex);
+    const stop = mapPhotos.find((p) => p.galleryIndex === galleryIndex);
+    if (stop) setSelectedStopId(stop.id);
+  };
 
   return (
     <div className="flex flex-col justify-start gap-6">
@@ -88,7 +114,7 @@ export const TripReport = () => {
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full gap-3">
           <div className="flex flex-row items-center gap-2 rounded-xl border border-gray-200 bg-stone-100 px-4 py-1 text-sm">
-            <div className={`h-2 w-2 rounded-full ${bg[index]}`}></div>
+            <div className={`h-2 w-2 rounded-full bg-green-800`}></div>
             <div>{trip.type}</div>
           </div>
 
@@ -122,18 +148,18 @@ export const TripReport = () => {
       </div>
 
       <div className="flex w-full flex-row rounded-lg border-2">
-        {StatBlock("distance", `${trip.distance_mi} mi`)}
-        {StatBlock("elev gain", `${trip.elevation_gain_ft} ft`)}
-        {StatBlock("nights", `${trip.nights}`)}
-        {StatBlock("difficulty", `${trip.difficulty}`)}
-        {StatBlock("region", `${trip.region}`)}
-        {StatBlock("date", `${dateToString(trip.created_at)}`, true)}
+        {StatBlock("distance", `${trip.distance_mi} mi`, Route)}
+        {StatBlock("elev gain", `${trip.elevation_gain_ft} ft`, TrendingUp)}
+        {StatBlock("nights", `${trip.nights}`, Tent)}
+        {StatBlock("difficulty", `${trip.difficulty}`, Gauge)}
+        {StatBlock("region", `${trip.region}`, MapPin)}
+        {StatBlock("date", `${dateToString(trip.created_at)}`, Calendar, true)}
       </div>
 
       <div className="flex flex-col gap-6 lg:flex-row">
         <div className="flex w-full flex-col gap-8 opacity-80 lg:w-3/5">
           <div
-            className="opacity-80"
+            className="prose prose-stone max-w-none prose-headings:font-semibold prose-h2:text-2xl"
             dangerouslySetInnerHTML={{ __html: trip.body_html }}
           />
 
@@ -159,7 +185,7 @@ export const TripReport = () => {
 
           <div className="flex w-full flex-col gap-4">
             <div className="w-full text-xl font-semibold">Photo gallery</div>
-            <PhotoGallery photos={galleryPhotos} />
+            <PhotoGallery photos={galleryPhotos} onPhotoClick={showPhoto} />
           </div>
 
           <div className="w-full">
@@ -183,7 +209,13 @@ export const TripReport = () => {
         <div className="w-full lg:w-2/5">
           <div className="lg:sticky lg:top-6">
             {trip.gpx_url ? (
-              <TripMap gpxUrl={trip.gpx_url} photos={mapPhotos} />
+              <TripMap
+                gpxUrl={trip.gpx_url}
+                photos={mapPhotos}
+                selectedPhotoId={selectedStopId}
+                onSelectPhoto={setSelectedStopId}
+                onOpenPhoto={showPhoto}
+              />
             ) : (
               <div className="flex h-[520px] items-center justify-center rounded-2xl border border-dashed border-stone-300 bg-stone-50 text-sm text-stone-500">
                 No GPX map added for this trip yet.
@@ -192,6 +224,13 @@ export const TripReport = () => {
           </div>
         </div>
       </div>
+
+      <Lightbox
+        photos={galleryPhotos}
+        index={lightboxIndex}
+        onClose={() => setLightboxIndex(null)}
+        onNavigate={showPhoto}
+      />
     </div>
   );
 };

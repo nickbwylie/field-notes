@@ -14,7 +14,7 @@ export async function getTrips() {
   return data;
 }
 
-export async function getAllTrips(): Promise<TripFrontmatter[] | null> {
+export async function getAllTrips(): Promise<TripFrontmatter[]> {
   const { data, error } = await supabase
     .from("trips")
     .select("*")

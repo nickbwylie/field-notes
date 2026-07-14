@@ -19,11 +19,18 @@ export interface MapPhoto {
   caption?: string;
   lat: number;
   lng: number;
+  /** Index of this photo in the full trip gallery (for the shared lightbox). */
+  galleryIndex: number;
 }
 
 interface TripMapProps {
   gpxUrl: string;
   photos?: MapPhoto[];
+  /** Controlled selection: which photo stop is active. */
+  selectedPhotoId?: string | null;
+  onSelectPhoto?: (id: string) => void;
+  /** Open the shared lightbox at a gallery index. */
+  onOpenPhoto?: (galleryIndex: number) => void;
 }
 
 const FitBounds = ({ geoJson }: { geoJson: GeoJsonObject }) => {
@@ -84,11 +91,24 @@ const createPhotoIcon = (index: number, isSelected: boolean) => {
   });
 };
 
-export const TripMap = ({ gpxUrl, photos = [] }: TripMapProps) => {
-  console.log("gpx url", gpxUrl);
+export const TripMap = ({
+  gpxUrl,
+  photos = [],
+  selectedPhotoId: controlledSelectedId,
+  onSelectPhoto,
+  onOpenPhoto,
+}: TripMapProps) => {
   const [geoJson, setGeoJson] = useState<GeoJsonObject | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [selectedPhotoId, setSelectedPhotoId] = useState<string | null>(null);
+  const [internalSelectedId, setInternalSelectedId] = useState<string | null>(
+    null,
+  );
+
+  // Controlled when the parent passes selectedPhotoId, standalone otherwise.
+  const selectedPhotoId =
+    controlledSelectedId !== undefined ? controlledSelectedId : internalSelectedId;
+  const selectPhoto = (id: string) =>
+    onSelectPhoto ? onSelectPhoto(id) : setInternalSelectedId(id);
 
   const selectedPhoto = photos.find((photo) => photo.id === selectedPhotoId);
 
@@ -179,25 +199,24 @@ export const TripMap = ({ gpxUrl, photos = [] }: TripMapProps) => {
             position={[photo.lat, photo.lng]}
             icon={createPhotoIcon(index, selectedPhotoId === photo.id)}
             eventHandlers={{
-              click: () => setSelectedPhotoId(photo.id),
+              click: () => selectPhoto(photo.id),
             }}
           >
             <Popup>
-              <div className="w-56 overflow-hidden rounded-xl">
-                <div className="relative aspect-video w-full overflow-hidden rounded-xl">
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    className="h-full w-full object-cover"
-                  />
-
-                  {photo.caption && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-3 pb-3 pt-10 text-white">
-                      <div className="text-sm font-medium leading-snug">
-                        {photo.caption}
-                      </div>
-                    </div>
-                  )}
+              <div className="w-56">
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  onClick={() => onOpenPhoto?.(photo.galleryIndex)}
+                  className="aspect-video w-full cursor-zoom-in rounded-lg object-cover"
+                />
+                {photo.caption && (
+                  <div className="mt-2 text-xs leading-snug text-stone-700">
+                    {photo.caption}
+                  </div>
+                )}
+                <div className="mt-1 text-[10px] uppercase tracking-wide text-stone-400">
+                  Click photo to enlarge
                 </div>
               </div>
             </Popup>
@@ -217,11 +236,15 @@ export const TripMap = ({ gpxUrl, photos = [] }: TripMapProps) => {
               const isSelected = selectedPhotoId === photo.id;
 
               return (
-                <button
+                <div
                   key={photo.id}
-                  type="button"
-                  onClick={() => setSelectedPhotoId(photo.id)}
-                  className={`flex w-full items-center gap-3 rounded-lg border p-2 text-left transition ${
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => selectPhoto(photo.id)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") selectPhoto(photo.id);
+                  }}
+                  className={`flex w-full cursor-pointer items-center gap-3 rounded-lg border p-2 text-left transition ${
                     isSelected
                       ? "border-green-800 bg-green-50"
                       : "border-stone-200 hover:bg-stone-50"
@@ -238,7 +261,12 @@ export const TripMap = ({ gpxUrl, photos = [] }: TripMapProps) => {
                   <img
                     src={photo.src}
                     alt={photo.alt}
-                    className="h-12 w-16 shrink-0 rounded-md object-cover"
+                    loading="lazy"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onOpenPhoto?.(photo.galleryIndex);
+                    }}
+                    className="h-12 w-16 shrink-0 cursor-zoom-in rounded-md object-cover"
                   />
 
                   <div className="min-w-0">
@@ -246,10 +274,10 @@ export const TripMap = ({ gpxUrl, photos = [] }: TripMapProps) => {
                       {photo.caption ?? photo.alt}
                     </div>
                     <div className="text-xs text-stone-500">
-                      View location on map
+                      View on map · click photo to enlarge
                     </div>
                   </div>
-                </button>
+                </div>
               );
             })}
           </div>

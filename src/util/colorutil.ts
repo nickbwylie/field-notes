@@ -1,7 +1,7 @@
 import type { TripFrontmatter } from "@/types/MyTypes";
 
 export const difficultyColorToClass = (
-  difficulty: TripFrontmatter["stats"]["difficulty"],
+  difficulty: TripFrontmatter["difficulty"],
 ) => {
   switch (difficulty) {
     case "Easy":

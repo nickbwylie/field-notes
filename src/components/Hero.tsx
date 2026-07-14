@@ -2,7 +2,6 @@ import type { TripFrontmatter } from "../types/MyTypes";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { dateToString } from "@/util/date";
-import BellMountain from "../assets/bellmountain.jpg";
 import { useNavigate } from "react-router";
 
 interface HeroProps {
