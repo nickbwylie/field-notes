@@ -24,7 +24,7 @@ hero_image: Hero.HEIC # filename in this folder
 gpx: route.gpx # filename in this folder
 high_point_ft: 10533
 featured: true
-# created_at: 2026-07-04        # defaults to now
+created_at: 2025-09-19 # defaults to now
 # slug: bell-mountain-loop      # defaults to slugified title
 # reading_time_min: 6           # defaults to auto-calculated from word count
 
