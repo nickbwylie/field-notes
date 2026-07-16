@@ -33,9 +33,11 @@ const Home = () => {
     call();
   }, []);
 
+  const heroTrip = tripData && tripData.find((trip) => trip.id === 5);
+
   return (
     <div className="flex w-full flex-col justify-center gap-10 sm:gap-16">
-      {tripData.length > 0 && <Hero trip={tripData[0]} />}
+      {tripData.length > 0 && <Hero trip={heroTrip} />}
       <FeaturedPill tags={featuredPills} />
       <WhereIveBeen trips={tripData} />
       <TripReportGrid trips={tripData} />
