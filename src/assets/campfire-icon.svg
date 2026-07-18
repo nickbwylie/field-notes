@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="Animated campfire icon">
+  <title>Campfire</title>
+  <defs>
+    <linearGradient id="outerG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff9a2e"/>
+      <stop offset="1" stop-color="#f4511e"/>
+    </linearGradient>
+    <linearGradient id="midG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffc02e"/>
+      <stop offset="1" stop-color="#ff8a00"/>
+    </linearGradient>
+    <linearGradient id="innerG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff3b0"/>
+      <stop offset="1" stop-color="#ffca28"/>
+    </linearGradient>
+    <radialGradient id="glowG" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ff9800" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ff9800" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <style>
+    .flame { transform-box: fill-box; transform-origin: 50% 100%; }
+    .outer { animation: flickA 1.1s ease-in-out infinite; }
+    .mid   { animation: flickB 0.85s ease-in-out infinite; }
+    .inner { animation: flickC 0.65s ease-in-out infinite; }
+    .glow  { transform-box: fill-box; transform-origin: center; animation: pulse 1.3s ease-in-out infinite; }
+    .spark { animation: rise 1.6s linear infinite; }
+    .s2 { animation-delay: 0.55s; }
+    .s3 { animation-delay: 1.1s; }
+    @keyframes flickA {
+      0%, 100% { transform: scale(1, 1) skewX(0deg); }
+      25%      { transform: scale(1.04, 0.95) skewX(1.5deg); }
+      50%      { transform: scale(0.96, 1.06) skewX(-2deg); }
+      75%      { transform: scale(1.02, 0.98) skewX(1deg); }
+    }
+    @keyframes flickB {
+      0%, 100% { transform: scale(1, 1) skewX(0deg); }
+      30%      { transform: scale(0.95, 1.07) skewX(-1.5deg); }
+      60%      { transform: scale(1.05, 0.94) skewX(2deg); }
+    }
+    @keyframes flickC {
+      0%, 100% { transform: scale(1, 1) skewX(0deg); }
+      35%      { transform: scale(1.08, 0.9) skewX(2deg); }
+      70%      { transform: scale(0.92, 1.1) skewX(-2deg); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50%      { opacity: 0.55; transform: scale(1.15); }
+    }
+    @keyframes rise {
+      0%   { transform: translateY(0); opacity: 0; }
+      15%  { opacity: 1; }
+      100% { transform: translateY(-46px); opacity: 0; }
+    }
+  </style>
+
+  <g transform="translate(0 -12)">
+  <!-- warm glow -->
+  <ellipse class="glow" cx="64" cy="102" rx="44" ry="18" fill="url(#glowG)"/>
+
+  <!-- logs -->
+  <g>
+    <rect x="34" y="106" width="60" height="12" rx="6" fill="#6d4318" transform="rotate(-18 64 112)"/>
+    <rect x="34" y="106" width="60" height="12" rx="6" fill="#8d5524" transform="rotate(18 64 112)"/>
+  </g>
+
+  <!-- flames -->
+  <path class="flame outer" fill="url(#outerG)" d="M64 26 C 78 44, 96 58, 96 80 C 96 100, 82 108, 64 108 C 46 108, 32 100, 32 80 C 32 58, 50 44, 64 26 Z"/>
+  <path class="flame mid" fill="url(#midG)" d="M64 46 C 74 58, 86 66, 86 82 C 86 96, 76 104, 64 104 C 52 104, 42 96, 42 82 C 42 66, 54 58, 64 46 Z"/>
+  <path class="flame inner" fill="url(#innerG)" d="M64 64 C 70 72, 78 76, 78 86 C 78 96, 72 101, 64 101 C 56 101, 50 96, 50 86 C 50 76, 58 72, 64 64 Z"/>
+
+  <!-- sparks -->
+  <circle class="spark"    cx="54" cy="62" r="2"   fill="#ffca28"/>
+  <circle class="spark s2" cx="66" cy="56" r="2.4" fill="#ffb300"/>
+  <circle class="spark s3" cx="75" cy="64" r="1.8" fill="#ffd54f"/>
+  </g>
+</svg>

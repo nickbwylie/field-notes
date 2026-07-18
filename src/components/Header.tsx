@@ -1,5 +1,6 @@
 import { Button } from "./ui/button";
 import { useLocation, useNavigate } from "react-router";
+import campfireIcon from "../assets/campfire-icon.svg"; // adjust path
 
 export type Route = "Home" | "Trips" | "About";
 
@@ -25,8 +26,8 @@ export const Header = () => {
         className="flex min-w-0 cursor-pointer items-center gap-3"
         onClick={() => nav("/")}
       >
-        <span className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#2f6b46]">
-          <span className="h-2.5 w-2.5 rounded-full border-2 border-white"></span>
+        <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg ">
+          <img src={campfireIcon} alt="" className="h-12 w-12 shrink-0" />
         </span>
         <div className="flex min-w-0 flex-col">
           <div className="text-md truncate font-bold text-black">
