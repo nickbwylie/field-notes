@@ -9,7 +9,10 @@ function App() {
 
   return (
     <>
-      <div ref={ref} className="w-full border-b border-b-gray-200 pb-4">
+      <div
+        ref={ref}
+        className="sticky top-0 z-40 w-full border-b border-b-gray-200 bg-white pb-4"
+      >
         <div className="mx-auto flex w-full max-w-[1200px] px-3 pt-4 sm:pt-6">
           <Header />
         </div>

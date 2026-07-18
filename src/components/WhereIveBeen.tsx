@@ -117,8 +117,9 @@ export const WhereIveBeen = ({ trips }: WhereIveBeenProps) => {
           center={positions[0]}
           zoom={4}
           scrollWheelZoom={false}
-          className="h-[400px] w-full sm:h-[500px]"
+          className="h-[400px] w-full sm:h-[500px] "
           ref={mapRef}
+          style={{ zIndex: 10 }}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
