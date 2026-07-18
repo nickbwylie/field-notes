@@ -207,7 +207,7 @@ export const TripReport = () => {
         </div>
 
         <div className="w-full lg:w-2/5">
-          <div className="lg:sticky lg:top-6">
+          <div className="lg:sticky lg:top-28">
             {trip.gpx_url ? (
               <TripMap
                 gpxUrl={trip.gpx_url}
