@@ -17,7 +17,6 @@ tags:
   - lakes
   - state-park
   - old-growth
-  - great-lakes
   - dog-friendly
 hero_image: Hero.HEIC # filename in this folder
 

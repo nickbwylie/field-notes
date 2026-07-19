@@ -5,12 +5,18 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { TripFrontmatter } from "@/types/MyTypes";
 
-import { Search } from "lucide-react";
+import { ListFilter, Search, SearchX, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 // const tripData: TripFrontmatter[] = [
 //   {
@@ -218,17 +224,56 @@ import { useEffect, useMemo, useState } from "react";
 export const TripSearch = () => {
   const [search, setSearch] = useState("");
   const [tripData, setTripData] = useState<TripFrontmatter[] | null>();
-  //   const [trips, setTrips] = useState<TripFrontmatter[]>(tripData);
   const [tab, setTab] = useState("all");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  // Selected tags live in the URL (?tags=a,b) so filtered views are shareable.
+  const selectedTags = useMemo(
+    () => (searchParams.get("tags") ?? "").split(",").filter(Boolean),
+    [searchParams],
+  );
+
+  const toggleTag = (tag: string) => {
+    const next = selectedTags.includes(tag)
+      ? selectedTags.filter((t) => t !== tag)
+      : [...selectedTags, tag];
+    if (next.length === 0) {
+      searchParams.delete("tags");
+    } else {
+      searchParams.set("tags", next.join(","));
+    }
+    setSearchParams(searchParams, { replace: true });
+  };
+
+  const clearTags = () => {
+    searchParams.delete("tags");
+    setSearchParams(searchParams, { replace: true });
+  };
+
+  // Every tag in the catalog, with trip counts, most common first.
+  const allTags = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const trip of tripData ?? []) {
+      for (const tag of trip.tags ?? []) {
+        counts.set(tag, (counts.get(tag) ?? 0) + 1);
+      }
+    }
+    return [...counts.entries()]
+      .map(([name, count]) => ({ name, count }))
+      .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+  }, [tripData]);
+
   const trips = useMemo(() => {
     if (!tripData || tripData.length === 0) return [];
 
     return tripData.filter(
       (val) =>
         val.title.toLowerCase().startsWith(search.toLowerCase()) &&
-        (tab !== "all" ? val.type.toLowerCase() === tab : true),
+        (tab !== "all" ? val.type.toLowerCase() === tab : true) &&
+        selectedTags.every((t) => (val.tags ?? []).includes(t)),
     );
-  }, [search, tab, tripData]);
+  }, [search, tab, tripData, selectedTags]);
   useEffect(() => {
     async function getTrips() {
       setTripData(await getAllTrips());
@@ -282,15 +327,109 @@ export const TripSearch = () => {
             </TabsTrigger>
           </TabsList>
         </Tabs>
+        <Popover open={filterOpen} onOpenChange={setFilterOpen}>
+          <PopoverTrigger
+            className={`flex w-fit items-center gap-1.5 rounded-lg border px-3 py-1.5 text-sm transition ${
+              filterOpen || selectedTags.length > 0
+                ? "border-green-800 text-green-800"
+                : "border-stone-200 text-stone-600 hover:bg-stone-50"
+            }`}
+          >
+            <ListFilter className="h-4 w-4" />
+            Filter
+            {selectedTags.length > 0 && (
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-green-800 text-xs text-white">
+                {selectedTags.length}
+              </span>
+            )}
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-72 p-3">
+            <div className="flex flex-wrap gap-2">
+              {allTags.map((tag) => {
+                const active = selectedTags.includes(tag.name);
+                return (
+                  <button
+                    key={tag.name}
+                    type="button"
+                    onClick={() => toggleTag(tag.name)}
+                    className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm transition ${
+                      active
+                        ? "border-green-800 bg-green-800 text-white"
+                        : "border-stone-200 text-stone-600 hover:bg-stone-50"
+                    }`}
+                  >
+                    <span className="capitalize">
+                      {tag.name.replaceAll("-", " ")}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            {selectedTags.length > 0 && (
+              <button
+                type="button"
+                onClick={clearTags}
+                className="mt-3 text-sm text-stone-500 transition hover:text-stone-800"
+              >
+                Clear all
+              </button>
+            )}
+          </PopoverContent>
+        </Popover>
         <div className="flex grow justify-start text-sm text-gray-500 sm:justify-end">{`${trips.length} results`}</div>
       </div>
+      {selectedTags.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          {selectedTags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              onClick={() => toggleTag(tag)}
+              className="flex items-center gap-1.5 rounded-full bg-green-800 px-3 py-1 text-sm text-white transition hover:bg-green-700"
+            >
+              <span className="capitalize">{tag.replaceAll("-", " ")}</span>
+              <X className="h-3.5 w-3.5" />
+            </button>
+          ))}
+        </div>
+      )}
       <Separator orientation="horizontal" className="my-4" />
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {trips?.length > 0
-          ? trips.map((trip) => <TripCard key={trip.title} trip={trip} />)
-          : [1, 2, 3, 4, 5].map((val) => <TripCardSkeleton key={val} />)}
-      </div>
+      {tripData == null ? (
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5].map((val) => (
+            <TripCardSkeleton key={val} />
+          ))}
+        </div>
+      ) : trips.length > 0 ? (
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {trips.map((trip) => (
+            <TripCard key={trip.title} trip={trip} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex w-full flex-col items-center gap-3 rounded-2xl border border-dashed border-stone-300 bg-stone-50 px-6 py-16 text-center">
+          <SearchX className="h-8 w-8 text-stone-400" />
+          <div className="text-lg font-semibold">No trips match</div>
+          <div className="max-w-sm text-sm text-stone-500">
+            {search || selectedTags.length > 0 || tab !== "all"
+              ? "Try removing a filter or clearing your search — the trip you're after might be hiding behind one."
+              : "No trip reports yet. Check back soon."}
+          </div>
+          {(search || selectedTags.length > 0) && (
+            <button
+              type="button"
+              onClick={() => {
+                setSearch("");
+                clearTags();
+              }}
+              className="mt-1 rounded-lg border border-stone-300 px-4 py-1.5 text-sm text-stone-700 transition hover:bg-stone-100"
+            >
+              Clear search and filters
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

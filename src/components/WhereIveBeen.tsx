@@ -4,6 +4,7 @@ import L from "leaflet";
 import { useNavigate } from "react-router";
 import type { TripFrontmatter } from "@/types/MyTypes";
 import { Separator } from "./ui/separator";
+import { Skeleton } from "./ui/skeleton";
 
 interface WhereIveBeenProps {
   trips: TripFrontmatter[];
@@ -34,6 +35,44 @@ const createPinIcon = (index: number) =>
     iconAnchor: [15, 15],
   });
 
+const SectionHeader = () => (
+  <div className="flex w-full flex-row items-center gap-3">
+    <span className="text-nowrap text-xs font-[600] uppercase tracking-widest text-green-800">
+      where i've been
+    </span>
+    <Separator />
+    <span className="hidden text-nowrap text-xs opacity-50 sm:block">
+      every trip, one map
+    </span>
+  </div>
+);
+
+const LoadingWhereIveBeen = () => (
+  <div className="flex w-full flex-col gap-4 sm:gap-6">
+    <SectionHeader />
+
+    {/* stat cards */}
+    <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-4">
+      {[1, 2, 3, 4].map((i) => (
+        <div key={i} className="rounded-lg bg-stone-100 px-4 py-3">
+          <Skeleton className="h-3 w-20" />
+          <Skeleton className="mt-2 h-7 w-14" />
+        </div>
+      ))}
+    </div>
+
+    {/* map + chip strip */}
+    <div className="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+      <Skeleton className="h-[320px] w-full rounded-none sm:h-[400px]" />
+      <div className="flex gap-2 overflow-hidden border-t border-stone-200 bg-white p-3">
+        <Skeleton className="h-8 w-44 rounded-lg" />
+        <Skeleton className="h-8 w-56 rounded-lg" />
+        <Skeleton className="h-8 w-48 rounded-lg" />
+      </div>
+    </div>
+  </div>
+);
+
 const FitAllPins = ({ positions }: { positions: [number, number][] }) => {
   const map = useMap();
   const fitted = useRef(false);
@@ -59,6 +98,10 @@ export const WhereIveBeen = ({ trips }: WhereIveBeenProps) => {
       !Number.isNaN(Number(t.location_lng)),
   );
 
+  // No data yet (fetch in flight) — mirror the loaded layout with skeletons.
+  if (trips.length === 0) return <LoadingWhereIveBeen />;
+
+  // Data loaded but nothing has coordinates — nothing to map.
   if (pins.length === 0) return null;
 
   const totalMiles = trips.reduce((sum, t) => sum + (t.distance_mi ?? 0), 0);
@@ -91,15 +134,7 @@ export const WhereIveBeen = ({ trips }: WhereIveBeenProps) => {
 
   return (
     <div className="flex w-full flex-col gap-4 sm:gap-6">
-      <div className="flex w-full flex-row items-center gap-3">
-        <span className="text-nowrap text-xs font-[600] uppercase tracking-widest text-green-800">
-          where i've been
-        </span>
-        <Separator />
-        <span className="hidden text-nowrap text-xs opacity-50 sm:block">
-          every trip, one map
-        </span>
-      </div>
+      <SectionHeader />
 
       <div className="grid w-full grid-cols-2 gap-3 sm:grid-cols-4">
         {stats.map((stat) => (

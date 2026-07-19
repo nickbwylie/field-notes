@@ -15,6 +15,7 @@ location_lng: "-93.35580"
 excerpt: Our first-ever paddle trip, on America's first national river — rain-swollen rapids, a canoe-versus-tree incident, campfire tacos, and Coronas with fresh lime on the glassy float into Pruitt.
 tags:
   - river
+  - national-park
   - paddling
   - bluffs
   - gravel-bar-camping

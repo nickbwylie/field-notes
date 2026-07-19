@@ -15,6 +15,7 @@ location_lng: "-110.92707"
 excerpt: Three days along the spine of the Tetons — wildflower meadows, Marion Lake, and the grind over Fox Creek and Hurricane Pass before dropping down to Jenny Lake.
 tags:
   - alpine
+  - lakes
   - wildflowers
   - mountain-passes
   - national-park
